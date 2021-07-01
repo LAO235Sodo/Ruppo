@@ -1,4 +1,6 @@
+import com.tony.zrpc.common.serialize.json.JsonSerialize;
 import com.tony.zrpc.provider.server.ProviderServer;
+import com.tony.zrpc.provider.server.RpcResponse;
 import org.apache.log4j.Logger;
 
 import java.io.IOException;
@@ -11,7 +13,7 @@ import java.net.Socket;
  * @version: 1.0
  */
 public class SocketTest {
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws Exception {
         Logger logger = Logger.getLogger(ProviderServer.class);
         // client
         Socket client = new Socket("127.0.0.1", 8080);
@@ -20,7 +22,11 @@ public class SocketTest {
 
         byte[] response = new byte[1024];
         client.getInputStream().read(response);
-        logger.info(new String(response));
+
+        RpcResponse deserialize = (RpcResponse) new JsonSerialize().deserialize(response, RpcResponse.class);
+
+        logger.info(deserialize);
+
         client.close();
     }
 }
