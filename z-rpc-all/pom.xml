@@ -10,6 +10,13 @@
 
     <description>z-rpc</description>
     <dependencies>
+
+        <dependency>
+            <groupId>io.netty</groupId>
+            <artifactId>netty-all</artifactId>
+            <version>4.1.32.Final</version>
+        </dependency>
+
         <!--Json序列化工具-->
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>

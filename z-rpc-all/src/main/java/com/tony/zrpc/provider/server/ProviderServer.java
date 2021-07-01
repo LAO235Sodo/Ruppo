@@ -53,17 +53,15 @@ public class ProviderServer implements SmartApplicationListener , ApplicationCon
                     byte[] request=new byte[1024];
                     socket.getInputStream().read(request);
 
-                    String className ="com.tony.edu.rpc.sms.api.SmsService";
-                    String methodName="send";
-                    Class[] paramterType = new Class[]{String.class, String.class};
-                    Object[] arguments=new Object[]{"10086","你好"};
+                    RpcRequest deserialize = (RpcRequest) new JsonSerialize().deserialize(request, RpcRequest.class);
+
                     //返回与给定的字符串名称相关联类或接口的Class对象
                     //获取到Smsservice接口的Class对象，用去下面的按类型获取对应的Bean
-                    Class<?> serviceClass=Class.forName(className);
+                    Class<?> serviceClass=Class.forName(deserialize.getClassName());
                     //按类型检索bean
                     Object serviceBean=applicationContext.getBean(serviceClass);
-                    Method method=serviceBean.getClass().getMethod(methodName,paramterType);
-                    Object result=method.invoke(serviceBean,arguments);
+                    Method method=serviceBean.getClass().getMethod(deserialize.getMethodName(),deserialize.getParamterType());
+                    Object result=method.invoke(serviceBean,deserialize.getArguments());
 
                     //包装
                     RpcResponse rpcResponse = new RpcResponse();
