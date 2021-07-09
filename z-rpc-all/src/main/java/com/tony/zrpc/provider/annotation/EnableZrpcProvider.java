@@ -1,6 +1,6 @@
 package com.tony.zrpc.provider.annotation;
 
-import com.tony.zrpc.provider.server.ProviderServer;
+import com.tony.zrpc.provider.server.NettyProviderServer;
 import org.springframework.context.annotation.Import;
 
 import java.lang.annotation.ElementType;
@@ -13,6 +13,6 @@ import java.lang.annotation.Target;
  */
 @Target({ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
-@Import(ProviderServer.class)
+@Import(NettyProviderServer.class)
 public @interface EnableZrpcProvider {
 }

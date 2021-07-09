@@ -1,10 +1,9 @@
 import com.tony.zrpc.common.serialize.json.JsonSerialize;
-import com.tony.zrpc.provider.server.ProviderServer;
+import com.tony.zrpc.provider.server.NettyProviderServer;
 import com.tony.zrpc.provider.server.RpcRequest;
 import com.tony.zrpc.provider.server.RpcResponse;
 import org.apache.log4j.Logger;
 
-import java.io.IOException;
 import java.net.Socket;
 
 /**
@@ -15,7 +14,7 @@ import java.net.Socket;
  */
 public class SocketTest {
     public static void main(String[] args) throws Exception {
-        Logger logger = Logger.getLogger(ProviderServer.class);
+        Logger logger = Logger.getLogger(NettyProviderServer.class);
         RpcRequest rpcRequest = new RpcRequest();
 
         rpcRequest.setClassName("com.tony.edu.rpc.sms.api.SmsService");
@@ -28,9 +27,8 @@ public class SocketTest {
         // client
         Socket client = new Socket("127.0.0.1", 8080);
         String request = "链接成功";
-        for (int i = 0; i < 10; i++) {
-            client.getOutputStream().write(serialize);
-        }
+        client.getOutputStream().write(serialize);
+
 
 
         byte[] response = new byte[1024];

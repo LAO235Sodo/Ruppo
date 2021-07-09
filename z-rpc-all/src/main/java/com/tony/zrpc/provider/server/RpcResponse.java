@@ -43,4 +43,8 @@ public class RpcResponse {
     public Object getContext() {
         return context;
     }
+
+    public void setContent(Object result) {
+        this.context=result;
+    }
 }
