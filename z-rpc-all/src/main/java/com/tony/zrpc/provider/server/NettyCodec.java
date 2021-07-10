@@ -39,7 +39,8 @@ public class NettyCodec extends ChannelDuplexHandler {
 
     }
 
-    // 缓存 - 每个链接对应一个 handler解码器对象。一定是一个请求的dabb开头
+    // 缓存 - 每个链接对应一个 handler解码器对象，所以不会存在线程安全问题。
+    // 一定是一个请求的dabb开头
     ByteBuf tempMsg = Unpooled.buffer();
 
     private ArrayList<Object> decode(ByteBuf in) throws Exception {
