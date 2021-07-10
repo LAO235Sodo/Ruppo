@@ -7,10 +7,7 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import org.apache.log4j.Logger;
 
-import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.ApplicationContextAware;
-import sun.misc.Request;
 
 import java.lang.reflect.Method;
 
@@ -21,13 +18,13 @@ import java.lang.reflect.Method;
  * @Description: com.tony.zrpc.provider.server
  * @version: 1.0
  */
-public class NettyProviderHandle extends SimpleChannelInboundHandler  {
-    private static Logger logger = Logger.getLogger(NettyProviderHandle.class);
+public class NettyProviderHandler extends SimpleChannelInboundHandler  {
+    private static Logger logger = Logger.getLogger(NettyProviderHandler.class);
 
     //传入服务器端的容器，来获取bean
     private ApplicationContext applicationContext;
 
-    public NettyProviderHandle(ApplicationContext applicationContext) {
+    public NettyProviderHandler(ApplicationContext applicationContext) {
         super();
         this.applicationContext = applicationContext;
     }

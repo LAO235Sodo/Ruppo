@@ -23,3 +23,5 @@ Target的英文意思是目标，这也很容易理解，
 @Target(ElementType.TYPE_PARAMETER) 作用于类型泛型，即泛型方法、泛型类、泛型接口 （jdk1.8加入）
 @Target(ElementType.TYPE_USE) 类型使用.可以用于标注任意类型除了 class （jdk1.8加入）
 一般比较常用的是ElementType.TYPE类型
+
+

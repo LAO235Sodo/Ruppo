@@ -1,6 +1,5 @@
 package com.tony.zrpc.provider.server;
 
-import com.tony.zrpc.common.serialize.json.JsonSerialize;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.EventLoopGroup;
@@ -18,10 +17,7 @@ import org.springframework.context.event.ContextStartedEvent;
 import org.springframework.context.event.SmartApplicationListener;
 import org.springframework.stereotype.Component;
 
-import java.lang.reflect.Method;
 import java.net.InetSocketAddress;
-import java.net.ServerSocket;
-import java.net.Socket;
 
 /**
  * @Auther: ljh
@@ -71,8 +67,11 @@ public class NettyProviderServer implements SmartApplicationListener , Applicati
             serverBootstrap.childHandler(new ChannelInitializer<SocketChannel>() {
                 @Override
                 protected void initChannel(SocketChannel socketChannel) throws Exception {
+
+
+
                     // 定义具体的handler处理顺序
-                    socketChannel.pipeline().addLast(new NettyProviderHandle(applicationContext));
+                    socketChannel.pipeline().addLast(new NettyProviderHandler(applicationContext));
 
                 }
             });
