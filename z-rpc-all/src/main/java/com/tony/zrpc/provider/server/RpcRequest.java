@@ -70,4 +70,7 @@ public class RpcRequest {
     public Class[] getParameterTypes() {
         return paramterType;
     }
+
+    public void setParameterTypes(Class<?>[] parameterTypes) {
+    }
 }
