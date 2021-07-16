@@ -2,10 +2,12 @@ package com.tony.zrpc.consumer.proxy;
 
 import com.tony.zrpc.consumer.client.NettyConsumerClient;
 import com.tony.zrpc.consumer.client.RpcConnection;
+import com.tony.zrpc.consumer.discovery.DiscoveryClient;
 import com.tony.zrpc.provider.server.RpcRequest;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
+import java.net.URI;
 
 /**
  * @Auther: ljh
@@ -14,6 +16,7 @@ import java.lang.reflect.Method;
  * @version: 1.0
  */
 public class RpcInvocationHandler implements InvocationHandler {
+    @Override
     public Object invoke(Object o, Method method, Object[] args) throws Throwable {
         if("toString".equals(method.getName())) {
             return o.toString();
@@ -23,11 +26,12 @@ public class RpcInvocationHandler implements InvocationHandler {
         RpcRequest rpcRequest = new RpcRequest();
         rpcRequest.setClassName(method.getDeclaringClass().getName());
         rpcRequest.setMethodName(method.getName());
-        rpcRequest.setParameterTypes(method.getParameterTypes());
+        rpcRequest.setParamterType(method.getParameterTypes());
         rpcRequest.setArguments(args);
         System.out.println("客户端准备发起一次RPC调用:" + rpcRequest);
         // 2. 获取和 服务提供者 的 网络链接
-        RpcConnection connect = NettyConsumerClient.connect("127.0.0.1", 8080);
+        URI target = DiscoveryClient.chose(rpcRequest.getClassName());
+        RpcConnection connect = NettyConsumerClient.connect(target.getHost(), target.getPort());
         // 3. 发送数据 -- 基于网络
         connect.call(rpcRequest);
 

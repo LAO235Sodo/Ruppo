@@ -67,10 +67,5 @@ public class RpcRequest {
         this.arguments = arguments;
     }
 
-    public Class[] getParameterTypes() {
-        return paramterType;
-    }
 
-    public void setParameterTypes(Class<?>[] parameterTypes) {
-    }
 }

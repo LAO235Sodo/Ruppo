@@ -11,6 +11,7 @@ public class OrderServiceImpl implements OrderService {
     @ZRpcReference// 引用一个远程的服务
     SmsService smsService; //  smsService.send 本质 RPC调用 -- 网络数据传输
 
+    @Override
     public void create(String orderContent) {
         System.out.println("订单创建成功：" + orderContent);
         Object smsResult = smsService.send("10086", "你有新订单");

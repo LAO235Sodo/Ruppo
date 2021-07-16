@@ -15,6 +15,7 @@ public class RpcConnection {
     public RpcConnection(Channel channel) {
         this.channel = channel;
     }
+
     public void call(RpcRequest rpcRequest){
         channel.writeAndFlush(rpcRequest);
     }

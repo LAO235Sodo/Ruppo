@@ -9,7 +9,7 @@ import org.springframework.context.annotation.PropertySource;
 
 @Configuration
 @ComponentScan("com.tony.edu.rpc")
-@PropertySource("classpath:/dubbo.properties")
+@PropertySource("classpath:/rpc.properties")
 @EnableZrpcConsumer
 public class OrderApplication {
 
@@ -19,7 +19,10 @@ public class OrderApplication {
         context.start();
         // 测试..模拟调用接口 -- 一定是远程，因为当前的系统没有具体实现类
         OrderService orderService = context.getBean(OrderService.class);
-        orderService.create("买一瓶水");
+        for (int i = 0; i < 20; i++) {
+            orderService.create("买一瓶水");
+        }
+
 
         // 阻塞不退出
         System.in.read();

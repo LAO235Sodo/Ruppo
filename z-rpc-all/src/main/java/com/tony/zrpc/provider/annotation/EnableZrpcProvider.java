@@ -1,6 +1,9 @@
 package com.tony.zrpc.provider.annotation;
 
+import com.tony.zrpc.provider.spring.ZrpcConfiguration;
+import com.tony.zrpc.provider.register.ProviderRegistStart;
 import com.tony.zrpc.provider.server.NettyProviderServer;
+import com.tony.zrpc.provider.spring.ZrpcProviderPostProcessor;
 import org.springframework.context.annotation.Import;
 
 import java.lang.annotation.ElementType;
@@ -13,6 +16,7 @@ import java.lang.annotation.Target;
  */
 @Target({ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
-@Import(NettyProviderServer.class)
+@Import({NettyProviderServer.class, ZrpcConfiguration.class,
+        ProviderRegistStart.class, ZrpcProviderPostProcessor.class})
 public @interface EnableZrpcProvider {
 }

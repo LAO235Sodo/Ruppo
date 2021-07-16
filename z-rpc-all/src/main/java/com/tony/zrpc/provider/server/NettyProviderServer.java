@@ -1,5 +1,6 @@
 package com.tony.zrpc.provider.server;
 
+import com.tony.zrpc.provider.config.ServerConfig;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.EventLoopGroup;
@@ -31,22 +32,25 @@ public class NettyProviderServer implements SmartApplicationListener , Applicati
     private static Logger logger = Logger.getLogger(NettyProviderServer.class);
     private ApplicationContext applicationContext;
 
+    @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
         this.applicationContext=applicationContext;
     }
 
 
+    @Override
     public boolean supportsEventType(Class<? extends ApplicationEvent> eventType) {
         return eventType== ContextClosedEvent.class || eventType== ContextStartedEvent.class;
     }
 
-
-
+    @Override
     public int getOrder() {
         return 9999;
     }
 
+    @Override
     public void onApplicationEvent(ApplicationEvent applicationEvent) {
+        ServerConfig serverConfig = applicationContext.getBean(ServerConfig.class);
 
         if (applicationEvent instanceof ContextStartedEvent){
             logger.info("Spring 上下文启动");
@@ -62,16 +66,16 @@ public class NettyProviderServer implements SmartApplicationListener , Applicati
                     //指定的NIO
                     .channel(NioServerSocketChannel.class)
                     //指定监听的端口
-                    .localAddress(new InetSocketAddress("127.0.0.1", 8080));
+                    .localAddress(new InetSocketAddress(serverConfig.getHost(), serverConfig.getPort()));
 
             serverBootstrap.childHandler(new ChannelInitializer<SocketChannel>() {
                 @Override
                 protected void initChannel(SocketChannel socketChannel) throws Exception {
 
-
-
+                    socketChannel.pipeline().addLast(new NettyCodec(RpcRequest.class));
                     // 定义具体的handler处理顺序
                     socketChannel.pipeline().addLast(new NettyProviderHandler(applicationContext));
+
 
                 }
             });

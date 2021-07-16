@@ -40,6 +40,7 @@ public class NettyConsumerClient {
                 socketChannel.pipeline().addLast(new NettyCodec(RpcResponse.class));
             }
         });
+
         Channel channel = bootstrap.connect(providerAddress).await().channel();
         RpcConnection rpcConnection = new RpcConnection(channel);
         // 再次判断是否有存在的连接， putifabsent 已经存在则返回已存在的， 关闭 刚刚重复创建的
